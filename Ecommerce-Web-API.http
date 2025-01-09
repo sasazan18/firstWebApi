@@ -1,6 +1,26 @@
-@Ecommerce_Web_API_HostAddress = http://localhost:5212
-
-GET {{Ecommerce_Web_API_HostAddress}}/weatherforecast/
-Accept: application/json
 
 ###
+GET http://localhost:5212
+
+###
+GET http://localhost:5212/api/categories
+
+###
+POST http://localhost:5212/api/categories 
+Content-Type: application/json
+
+{
+    "Name": "Beverages",
+    "Description": "Non-Israili Beverages"
+}
+
+###
+PUT http://localhost:5212/api/categories/ba475079-93b9-4f0a-a22b-fe7724d8a479
+Content-Type: application/json
+
+{
+    "Name": "yyyy",
+    "Description": "All y items"
+}
+###
+Delete http://localhost:5212/api/categories/xsdsfsdf
