@@ -1,3 +1,4 @@
+using Ecommerce_Web_API.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; // add mvc namespace
 
@@ -12,15 +13,9 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
     options.InvalidModelStateResponseFactory = context =>
     {
         var errors = context.ModelState.Where(e => e.Value!= null &&  e.Value.Errors.Any())
-            .Select(e => new
-            {
-                Field = e.Key,
-                Error_Messages = e.Value!=null? e.Value.Errors.Select(er => er.ErrorMessage).ToList(): new List<string>()
-            }).ToList();
+            .SelectMany(e => e.Value?.Errors!= null ? e.Value.Errors.Select(er => er.ErrorMessage) : new List<string>()).ToList();
 
-        var error_string = string.Join("\n", errors.Select(e => $"{e.Field}: {string.Join(": ", e.Error_Messages)}"));
-
-        return new BadRequestObjectResult(error_string);
+        return new BadRequestObjectResult(ApiResponse<object>.ErrorResponse(errors, 400, "Invalid model state"));
     };
 });
 
