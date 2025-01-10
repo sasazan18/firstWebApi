@@ -10,7 +10,7 @@ POST http://localhost:5212/api/categories
 Content-Type: application/json
 
 {
-    "Name": "Beverages",
+    "Name": "Bv",
     "Description": "Non-Israili Beverages"
 }
 
@@ -19,8 +19,8 @@ PUT http://localhost:5212/api/categories/08fcfa48-5800-4ed0-afd6-7d82faea1387
 Content-Type: application/json
 
 {
-    "Name": "y",
-    "Description": "1"
+    "Name": "srfsry",
+    "Description": "1srsereresrsres"
 }
 ###
 Delete http://localhost:5212/api/categories/xsdsfsdf
