@@ -30,6 +30,28 @@ namespace Ecommerce_Web_API.Controllers
             return Ok(ApiResponse<List<CategoryReadDto>>.SuccessResponse(categoryList, 200, "Categories retrieved successfully"));
         }
 
+        // Get: /api/categories/{categoryID} => Read a Category by Id
+        [HttpGet("{categoryID:guid}")]
+        public IActionResult GetCategoryById(Guid categoryID)
+        {
+            var foundCategory = categories.FirstOrDefault(c => c.Id == categoryID);
+            if (foundCategory == null)
+            {
+                return NotFound(ApiResponse<object>.ErrorResponse(new List<string> {"Category not found!"}, 404, "Validation failed"));
+            }
+            else
+            {
+                var categoryReadDto = new CategoryReadDto
+                {
+                    Id = foundCategory.Id,
+                    Name = foundCategory.Name,
+                    Description = foundCategory.Description
+                };
+                return Ok(ApiResponse<CategoryReadDto>.SuccessResponse(categoryReadDto, 200, "Category retrieved successfully"));
+            }
+        }
+
+
         // POST: /api/categories => Create a category
         [HttpPost]
         public IActionResult CreateCategories([FromBody] CategoryCreateDto categoryData)
@@ -73,7 +95,7 @@ namespace Ecommerce_Web_API.Controllers
             var foundCategory = categories.FirstOrDefault(c => c.Name == categoryName);
             if (foundCategory == null)
             {
-                return NotFound(ApiResponse<object>.ErrorResponse("Category not found!", 400, "Validation failed"));
+                return NotFound(ApiResponse<object>.ErrorResponse(new List<string> {"Category not found!"}, 404, "Validation failed"));
             }
             else
             {
@@ -89,7 +111,7 @@ namespace Ecommerce_Web_API.Controllers
             var foundCategory = categories.FirstOrDefault(c => c.Id == categoryID);
             if (foundCategory == null)
             {
-                return NotFound(ApiResponse<object>.ErrorResponse("Category not found!", 400, "Validation failed"));
+                return NotFound(ApiResponse<object>.ErrorResponse(new List<string> {"Category not found!"}, 404, "Validation failed"));
             }
             else
             {
