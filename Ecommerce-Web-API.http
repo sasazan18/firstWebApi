@@ -15,12 +15,12 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:5212/api/categories/ba475079-93b9-4f0a-a22b-fe7724d8a479
+PUT http://localhost:5212/api/categories/08fcfa48-5800-4ed0-afd6-7d82faea1387
 Content-Type: application/json
 
 {
-    "Name": "yyyy",
-    "Description": "All y items"
+    "Name": "y",
+    "Description": "1"
 }
 ###
 Delete http://localhost:5212/api/categories/xsdsfsdf

@@ -20,12 +20,6 @@ namespace Ecommerce_Web_API.Controllers
         public IActionResult GetCategories([FromQuery] string searchValue = "")
         {
             
-            // if (!string.IsNullOrEmpty(searchValue))
-            // {
-            //     var searchCategories = categories.Where(c => !string.IsNullOrEmpty(c.Name) && c.Name.Contains(searchValue, StringComparison.OrdinalIgnoreCase)).ToList();
-            //     return Ok(searchCategories);
-            // }
-
             var categoryList = categories.Select(c => new CategoryReadDto
             {
                 Id = c.Id,
@@ -33,7 +27,7 @@ namespace Ecommerce_Web_API.Controllers
                 Description = c.Description,
             }).ToList();
 
-            return Ok(categoryList);
+            return Ok(ApiResponse<List<CategoryReadDto>>.SuccessResponse(categoryList, 200, "Categories retrieved successfully"));
         }
 
         // POST: /api/categories => Create a category
@@ -69,7 +63,7 @@ namespace Ecommerce_Web_API.Controllers
                 Name = newCategory.Name,
                 Description = newCategory.Description
             };
-            return Created($"/api/categories/{newCategory.Id}", categoryReadDto);
+            return Created($"/api/categories/{newCategory.Id}", ApiResponse<CategoryReadDto>.SuccessResponse(categoryReadDto, 201, "Category created successfully"));
         }
 
         // DELETE: /api/categories/{categoryName} => DELETE a category by Name
@@ -79,12 +73,12 @@ namespace Ecommerce_Web_API.Controllers
             var foundCategory = categories.FirstOrDefault(c => c.Name == categoryName);
             if (foundCategory == null)
             {
-                return NotFound("Category not found");
+                return NotFound(ApiResponse<object>.ErrorResponse("Category not found!", 400, "Validation failed"));
             }
             else
             {
                 categories.Remove(foundCategory);
-                return Ok("Category removed successfully");
+                return Ok(ApiResponse<object>.SuccessResponse(null, 204, "Category deleted successfully"));
             }
         }
 
@@ -92,36 +86,16 @@ namespace Ecommerce_Web_API.Controllers
         [HttpPut("{categoryID}")]
         public IActionResult UpdateCategories(Guid categoryID, [FromBody] CategoryUpdateDto categoryData)
         {
-            if (string.IsNullOrEmpty(categoryData.Name) || string.IsNullOrEmpty(categoryData.Description))
-            {
-                return BadRequest("Name and Description are required");
-            }
             var foundCategory = categories.FirstOrDefault(c => c.Id == categoryID);
             if (foundCategory == null)
             {
-                return NotFound("Category not found");
+                return NotFound(ApiResponse<object>.ErrorResponse("Category not found!", 400, "Validation failed"));
             }
             else
             {
-
-                if (categoryData.Name.Length >= 4)
-                {
-                    foundCategory.Name = categoryData.Name;
-                }
-                else
-                {
-                    return BadRequest("Name should be atleast 4 characters long");
-                }
-
-                if (categoryData.Description.Length >= 10)
-                {
-                    foundCategory.Description = categoryData.Description;
-                }
-                else
-                {
-                    return BadRequest("Description should be atleast 10 characters long");
-                }
-                return NoContent();
+             foundCategory.Name = categoryData.Name;
+             foundCategory.Description = categoryData.Description;
+             return Ok(ApiResponse<object>.SuccessResponse(null, 204, "Category updated successfully"));
             }
         }
     }
