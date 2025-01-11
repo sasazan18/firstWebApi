@@ -6,15 +6,15 @@ GET http://localhost:5212
 GET http://localhost:5212/v1/api/categories
 
 ###
-GET http://localhost:5212/v1/api/categories/2134bbaf-c6ff-4fbb-b952-42fa5c21453c
+GET http://localhost:5212/v1/api/categories/f58cf462-44fd-412f-b523-22930e1695af
 
 ###
 POST http://localhost:5212/v1/api/categories 
 Content-Type: application/json
 
 {
-    "Name": "Beverages",
-    "Description": "Non-Israili Beverages"
+    "Name": "Meat",
+    "Description": "Halal Meats"
 }
 
 ###
