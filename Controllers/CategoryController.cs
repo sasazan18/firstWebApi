@@ -13,7 +13,10 @@ namespace Ecommerce_Web_API.Controllers
     [Route("v1/api/categories/")]
     public class CategoryController : ControllerBase
     {
-        // create a list of categories
+        // create an empty list of categories 
+        private static List<Category> categories = new List<Category>();
+
+
        // create a list of products
         // Get: /api/categories => Read Categories
         [HttpGet]
