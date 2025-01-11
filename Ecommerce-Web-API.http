@@ -3,19 +3,22 @@
 GET http://localhost:5212
 
 ###
-GET http://localhost:5212/api/categories
+GET http://localhost:5212/v1/api/categories
 
 ###
-POST http://localhost:5212/api/categories 
+GET http://localhost:5212/v1/api/categories/2134bbaf-c6ff-4fbb-b952-42fa5c21453c
+
+###
+POST http://localhost:5212/v1/api/categories 
 Content-Type: application/json
 
 {
-    "Name": "Bv",
+    "Name": "Beverages",
     "Description": "Non-Israili Beverages"
 }
 
 ###
-PUT http://localhost:5212/api/categories/08fcfa48-5800-4ed0-afd6-7d82faea1387
+PUT http://localhost:5212/v1/api/categories/08fcfa48-5800-4ed0-afd6-7d82faea1387
 Content-Type: application/json
 
 {
@@ -23,4 +26,4 @@ Content-Type: application/json
     "Description": "1srsereresrsres"
 }
 ###
-Delete http://localhost:5212/api/categories/xsdsfsdf
+Delete http://localhost:5212/v1/api/categories/xsdsfsdf
