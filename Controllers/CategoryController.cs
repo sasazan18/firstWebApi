@@ -10,11 +10,14 @@ using Microsoft.VisualBasic;
 namespace Ecommerce_Web_API.Controllers
 {
     [ApiController]
-    [Route("api/categories/")]
+    [Route("v1/api/categories/")]
     public class CategoryController : ControllerBase
     {
-        // create a list of categories
-        private static List<Category> categories = new List<Category>(); // create a list of products
+        // create an empty list of categories 
+        private static List<Category> categories = new List<Category>();
+
+
+       // create a list of products
         // Get: /api/categories => Read Categories
         [HttpGet]
         public IActionResult GetCategories([FromQuery] string searchValue = "")
@@ -52,7 +55,7 @@ namespace Ecommerce_Web_API.Controllers
         }
 
 
-        // POST: /api/categories => Create a category
+        // POST: v1/api/categories => Create a category
         [HttpPost]
         public IActionResult CreateCategories([FromBody] CategoryCreateDto categoryData)
         {
@@ -122,3 +125,18 @@ namespace Ecommerce_Web_API.Controllers
         }
     }
 }
+
+
+// URL Name Best Practices
+// 1. use descriptive name
+// 2. use plurals
+// 3. plurals/{singularNoun} => /categories/{categoryID}
+// 4. use hiphens for multi-word names to improve readability => /product-categories
+// 5. versioning => /v1/categories
+// 6. Avoid verbs in URL => /create-category (bad practice) || /categories (POST) (good practice)
+
+
+// GET /api/categories -> controller -> response 
+// controller basically retrieves data from the database using a service and sends it back to the client
+// so,service is the one that interacts with the database
+// controller -> service -> database -> service -> controller -> response
