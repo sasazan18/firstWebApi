@@ -1,9 +1,12 @@
 using Ecommerce_Web_API.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; // add mvc namespace
+using Ecommerce_Web_API.Services;
 
 
 var builder = WebApplication.CreateBuilder(args); // create a new web application
+
+builder.Services.AddSingleton<CategoryService>();// add controllers to the services
 
 // add services to the controller
 builder.Services.AddControllers();
