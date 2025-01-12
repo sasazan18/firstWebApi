@@ -2,11 +2,28 @@ using Ecommerce_Web_API.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; // add mvc namespace
 using Ecommerce_Web_API.Services;
+using Ecommerce_Web_API.DTOs;
+using Ecommerce_Web_API.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Ecommerce_Web_API.data;
+// add npgsql namespace
+
+
 
 
 var builder = WebApplication.CreateBuilder(args); // create a new web application
 
-builder.Services.AddSingleton<CategoryService>();// add controllers to the services
+builder.Services.AddAutoMapper(typeof(Program)); // add automapper
+// add controllers to the services
+
+builder.Services.AddScoped<CategoryService>(); // add scoped services
+builder.Services.AddScoped<InterfaceCategoryService, CategoryService>(); 
+
+builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")) ); // add db context
+
+
+
 
 // add services to the controller
 builder.Services.AddControllers();

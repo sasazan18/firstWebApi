@@ -6,24 +6,24 @@ GET http://localhost:5212
 GET http://localhost:5212/v1/api/categories
 
 ###
-GET http://localhost:5212/v1/api/categories/f58cf462-44fd-412f-b523-22930e1695af
+GET http://localhost:5212/v1/api/categories/e01847b9-79f4-488f-94f7-e6ba7827da51
 
 ###
 POST http://localhost:5212/v1/api/categories 
 Content-Type: application/json
 
 {
-    "Name": "Meat",
-    "Description": "Halal Meats"
+    "Name": "Home and Living",
+    "Description": "Home and Living"
 }
 
 ###
-PUT http://localhost:5212/v1/api/categories/08fcfa48-5800-4ed0-afd6-7d82faea1387
+PUT http://localhost:5212/v1/api/categories/e01847b9-79f4-488f-94f7-e6ba7827da51
 Content-Type: application/json
 
 {
-    "Name": "srfsry",
-    "Description": "1srsereresrsres"
+    "Name": "Coke",
+    "Description": "non-israeli coke"
 }
 ###
-Delete http://localhost:5212/v1/api/categories/xsdsfsdf
+Delete http://localhost:5212/v1/api/categories/Coke

@@ -5,3 +5,12 @@
 
 
 <!-- we will follow MVC architecture -- Model, View, Controller -->
+
+# Key points
+1. Why we need AutoMapper? --> To convert between DTO and model to overcome the hestle of using same boiler plate again and agin.
+
+
+# Entity Framework Core = EFCore -- it is an open source ORM framework
+# ORM Framework -- Object Relational MApping -- Converting class/object to DB Table and vice-versa
+
+

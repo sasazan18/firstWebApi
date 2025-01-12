@@ -7,6 +7,7 @@ using Ecommerce_Web_API.models;
 using Ecommerce_Web_API.DTOs;
 using Microsoft.VisualBasic;
 using Ecommerce_Web_API.Services;
+using Ecommerce_Web_API.Interfaces;
 
 //version 1.0
 
@@ -17,29 +18,29 @@ namespace Ecommerce_Web_API.Controllers
     public class CategoryController : ControllerBase
     {
         // Creating a private instance of the CategoryService
-        private CategoryService _categoryService;
+        private InterfaceCategoryService _categoryService;
 
         // Constructor to initialize the CategoryService
-        public CategoryController(CategoryService categoryService){
+        public CategoryController(InterfaceCategoryService categoryService){
             _categoryService = categoryService;
         }
 
 
-        // Get: /api/categories => Read Categories
+        // Get: /api/categories?pageNumber=2&&pageSize=5 => Read Categories
         [HttpGet]
-        public IActionResult GetCategories([FromQuery] string searchValue = "")
+        public async Task <IActionResult> GetCategories([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5)
         {
             
-            var categoryList = _categoryService.GetAllCategories();
+            var categoryList = await _categoryService.GetAllCategories(pageNumber, pageSize);
 
-            return Ok(ApiResponse<List<CategoryReadDto>>.SuccessResponse(categoryList, 200, "Categories retrieved successfully"));
+            return Ok(ApiResponse<PagenatedResult<CategoryReadDto>>.SuccessResponse(categoryList, 200, "Categories retrieved successfully"));
         }
 
         // Get: /api/categories/{categoryID} => Read a Category by Id
         [HttpGet("{categoryID:guid}")]
-        public IActionResult GetCategoryById(Guid categoryID)
+        public async Task<IActionResult> GetCategoryById(Guid categoryID)
         {
-            var retrievedCategory = _categoryService.GetCategoryById(categoryID);
+            var retrievedCategory = await _categoryService.GetCategoryById(categoryID);
             if (retrievedCategory == null)
             {
                 return NotFound(ApiResponse<object>.ErrorResponse(new List<string> {"Category not found!"}, 404, "Validation failed"));
@@ -50,9 +51,9 @@ namespace Ecommerce_Web_API.Controllers
 
         // POST: v1/api/categories => Create a category
         [HttpPost]
-        public IActionResult CreateCategories([FromBody] CategoryCreateDto categoryData)
+        public async Task <IActionResult> CreateCategories([FromBody] CategoryCreateDto categoryData)
         {
-            var newCategory = _categoryService.CreateCategory(categoryData);
+            var newCategory = await _categoryService.CreateCategory(categoryData);
 
             return Created($"/api/categories/{newCategory.Id}", ApiResponse<CategoryReadDto>.SuccessResponse(newCategory, 201, "Category created successfully"));
             
@@ -60,9 +61,9 @@ namespace Ecommerce_Web_API.Controllers
 
         // PUT: /api/categories/{categoryID} => update a category by ID
         [HttpPut("{categoryID}")]
-        public IActionResult UpdateCategories (Guid categoryID, [FromBody] CategoryUpdateDto categoryData)
+        public async Task <IActionResult> UpdateCategories (Guid categoryID, [FromBody] CategoryUpdateDto categoryData)
         {
-            var updatedCategory = _categoryService.UpdateCategoryById(categoryID, categoryData);
+            var updatedCategory = await _categoryService.UpdateCategoryById(categoryID, categoryData);
             if (updatedCategory == null)
             {
                 return NotFound(ApiResponse<object>.ErrorResponse(new List<string> {"Category not found!"}, 404, "Validation failed"));
@@ -75,10 +76,10 @@ namespace Ecommerce_Web_API.Controllers
 
         // DELETE: /api/categories/{categoryName} => DELETE a category by Name
         [HttpDelete("{categoryName}")]
-        public IActionResult DeleteCategories(string categoryName)
+        public async Task<IActionResult> DeleteCategories(string categoryName)
         {
-            var isDeleted = _categoryService.CategoryDeleteByName(categoryName);
-            if (!isDeleted)
+            var isDeleted = await _categoryService.CategoryDeleteByName(categoryName);
+            if (isDeleted== false)
                 return NotFound(ApiResponse<object>.ErrorResponse(new List<string> {"Category not found!"}, 404, "Validation failed"));
             else
                 return Ok(ApiResponse<object>.SuccessResponse(null, 204, "Category deleted successfully"));
